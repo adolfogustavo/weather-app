@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import transformWeather from './../../services/transformWeather';
+import { api_weather } from './../../constants/api_url'
 import Location from './Location';
 import WeatherData from './WeatherData';
 import './styles.css';
@@ -17,12 +19,12 @@ const data = {
     humidity: 80,
     wind: '10 m/s',
 }
-const data2 = {
-    temperature: 15,
-    weatherState: WINDY,
-    humidity: 10,
-    wind: '30 m/s',
-}
+// const data2 = {
+//     temperature: 15,
+//     weatherState: WINDY,
+//     humidity: 10,
+//     wind: '30 m/s',
+// }
 
 class WeatherLocation extends Component {
 
@@ -34,12 +36,25 @@ class WeatherLocation extends Component {
         };
     }
 
-    handleUpdateClick = () => {
-        console.log("Actualizado");
 
-        this.setState({
-            data: data2
+
+    handleUpdateClick = () => {
+        fetch(api_weather).then(resolve => {
+            return resolve.json();
+        }).then(data => {
+            const newWeather = transformWeather(data);
+            // console.log(newWeather);
+            // debugger;
+            this.setState({
+                data: newWeather
+            })
         });
+
+        // console.log("Actualizado");
+
+        // this.setState({
+        //     data: data2
+        // });
     }
     
     render(){
