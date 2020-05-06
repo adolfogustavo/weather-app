@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import LocationList from './components/LocationList';
+import LocationListContainer from './containers/LocationListContainer';
 import ForecastExtended from './components/ForecastExtended';
 
 import './App.css';
@@ -27,11 +27,6 @@ class App extends Component {
     }
   }
 
-  handleSelectedLocation = city => {
-    this.setState({ city })
-    console.log(`handleSelectionLocation ${city}`);
-  }
-
   render() {
     const { city } = this.state;
     return (
@@ -48,9 +43,8 @@ class App extends Component {
           </Row>
           <Row>
             <Col xs={12} md={6}>
-              <LocationList cities={cities}
-                onSelectedLocation={this.handleSelectedLocation}>
-              </LocationList>
+              <LocationListContainer cities={cities}>
+              </LocationListContainer>
             </Col>
             <Col xs={12} md={6}>
               <Paper elevation={4}>
@@ -70,4 +64,5 @@ class App extends Component {
   }
 }
 
-export default App;
+
+export default App
