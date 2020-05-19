@@ -20,13 +20,25 @@ const setWeatherCity = payload => ({ type: SET_WEATHER_CITY, payload });
 const api_key = '1937a9b104db78459d28d4b6c0384304';
 const url = "http://api.openweathermap.org/data/2.5/forecast";
 
+// Esto lo permite redux-thunk
 export const setSelectedCity = payload => {
 
-    return dispatch => {        
+    return (dispatch, getState) => {        
         const url_forecast = `${url}?q=${payload}&appid=${api_key}`;
 
         // activar en el estado un indicador de busqueda de datos
         dispatch(setCity(payload));
+
+        const state = getState();
+        const date = state.cities[payload] && state.cities[payload].forecastDataDate;
+        console.log('date=>', date);
+
+        const now = new Date();
+
+        // La diferencia vendrá en milisegundos
+        if(date && (now - date) < 1 * 60 * 1000) {
+            return;
+        }
         
         // fetch or axios
         return fetch(url_forecast).then(
